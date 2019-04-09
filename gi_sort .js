@@ -51,9 +51,40 @@
     
 
 */
+//Global Variables
+var tableData = [];
 
+var dataCategories = [];
 
+var sortIndex = 0;
 
+var sortDirection = 1;
+
+window.addEventListener("load", function () {
+      defineDataArray();
+      writeTableData();
+});
+//The purpose of this function is to populate the tableData array as a two-dimensional array 
+function defineDataArray() {
+      var tableData = document.querySelectorAll("table.sortable tbody tr");
+
+      for (var i = 0; i < tableRows.length; i++) {
+            var rowCells = i.children;
+            var rowValues = [rowCells[i]];
+
+            for (var i = 0; i < rowCells.length; i++) {
+                  rowValues += rowCells;
+            }
+            tableData += rowValues;
+      }
+      tableData.sort(dataSort2D(a, b));
+}
+// Writes the sorted data into the table rows and cells
+function writeTableData() {
+      for (var i = 0; i < array.length; i++) {
+
+      }
+}
 
 
 
