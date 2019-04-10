@@ -63,32 +63,105 @@ var sortDirection = 1;
 window.addEventListener("load", function () {
       defineDataArray();
       writeTableData();
-});
+      defineColumns();
+      //columnSort();
+})
 //The purpose of this function is to populate the tableData array as a two-dimensional array 
 function defineDataArray() {
-      var tableData = document.querySelectorAll("table.sortable tbody tr");
+      var tableRows = document.querySelectorAll("table.sortable tbody tr");
 
       for (var i = 0; i < tableRows.length; i++) {
-            var rowCells = i.children;
-            var rowValues = [rowCells[i]];
+            var rowCells = tableRows[i].children;
+            var rowValues = new Array(rowCells.length);
 
-            for (var i = 0; i < rowCells.length; i++) {
-                  rowValues += rowCells;
+            for (var j = 0; j < rowCells.length; j++) {
+                  rowValues[i] = rowCells[j].textContent;
             }
-            tableData += rowValues;
+            tableData[i] = rowValues;
+      }
+      tableData.sort(dataSort2D);
+}
+
+// Writes the sorted data into the table rows and cells
+function writeTableData() {
+      var newTableBody = document.createElement("tbody");
+      for (var i = 0; i < tableData.length; i++) {
+            var tableRow = document.createElement("tr");
+            for (var i = 0; i < tableRows.length; i++) {
+
+                  var tableCell = document.createElement("td");
+
+                  tableCell.textContent = tableData[i];
+            }
+
+
+            newTableBody.replaceChild(tabkeRow);
+      }
+      var oldTableBody = document.querySelectorAll("table.sortable");
+      document.replaceChild(newTableBody, oldTableBody);
+}
+
+
+
+
+
+
+
+function defineColumns() {
+
+      var sheets = document.createElement("style");
+      document.head.appendChild(sheets);
+      // changes the pointer using css
+
+      document.styleSheets[document.styleSheets.length - 1].insertRule(
+            "table.sortable thead tr th { \
+                  cursor: pointer; \
+            }", 0);
+
+      document.styleSheets[document.styleSheets.length - 1].insertRule(
+            "table.sortable thead tr th:after { \
+                  content: '\\00a0'; \
+                  font-family: monospace; \
+                  margin-left: 5px; \
+            }", 1);
+
+      document.styleSheets[document.styleSheets.length - 1].insertRule(
+            "table.sortable thead tr th:nth-of-type(1)::after { \
+                  content: '\\25b2'; \
+            }", 2);
+
+
+      for (var i = 0; i < document.querySelectorAll("table thead th").length; i++) {
+            dataCategories = i.textContent;
+
+      }
+}
+
+function columnSort(e) {
+      var columnText = e.target.textContent;
+      var columnIndex = Array.of(dataCategories[columnText]);
+      //  this function sorts the table based on the column heading that was clicked by the user.
+      if (columnIndex === sortIndex) {
+            sortDirection * -1;
+      } else {
+            columnIndex === sortIndex;
+      }
+      var columnNumber = columnIndex + 1;
+      var columnStyles = document.styleSheets[document.styleSheets.length - 1];
+      columnStyles.deleteRule(2);
+      if (sortDirection === 1) {
+            document.styleSheets[document.styleSheets.length - 1].insertRule(
+                  "table.sortable thead tr th:nth-of-type(" + columnNumber + ")::after { \
+                        content: '\\25b2'; \
+                  }", 2);
+      } else {
+            document.styleSheets[document.styleSheets.length - 1].insertRule(
+                  "table.sortable thead tr th:nth-of-type(" + columnNumber + ")::after { \
+                        content: '\\25bc'; \
+                  }", 3);
       }
       tableData.sort(dataSort2D(a, b));
 }
-// Writes the sorted data into the table rows and cells
-function writeTableData() {
-      for (var i = 0; i < array.length; i++) {
-
-      }
-}
-
-
-
-
 
 
 function dataSort2D(a, b) {
