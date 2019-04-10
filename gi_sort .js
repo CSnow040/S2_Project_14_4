@@ -75,7 +75,7 @@ function defineDataArray() {
             var rowValues = new Array(rowCells.length);
 
             for (var j = 0; j < rowCells.length; j++) {
-                  rowValues[i] = rowCells[j].textContent;
+                  rowValues[j] = rowCells[j].textContent;
             }
             tableData[i] = rowValues;
       }
@@ -87,17 +87,19 @@ function writeTableData() {
       var newTableBody = document.createElement("tbody");
       for (var i = 0; i < tableData.length; i++) {
             var tableRow = document.createElement("tr");
-            for (var i = 0; i < tableRows.length; i++) {
+            for (var i = 0; i < tableData[i].length; i++) {
 
                   var tableCell = document.createElement("td");
 
                   tableCell.textContent = tableData[i];
+                  tableRow.appendChild(tableCell);
             }
 
 
-            newTableBody.replaceChild(tabkeRow);
+            newTableBody.appendChild(tableRow);
       }
-      var oldTableBody = document.querySelectorAll("table.sortable");
+      var sortTable = document.querySelector("table.sortable")
+      var oldTableBody = document.querySelectorAll(sortTable);
       document.replaceChild(newTableBody, oldTableBody);
 }
 
@@ -133,7 +135,7 @@ function defineColumns() {
 
       for (var i = 0; i < document.querySelectorAll("table thead th").length; i++) {
             dataCategories = i.textContent;
-
+            i.onclick = columnSort;
       }
 }
 
